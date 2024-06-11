@@ -2,7 +2,7 @@
 
 ex09.c : a program that copies its input to its output, replacing each string of one or more blanks by a single blank.
 
-ex10.c : a program that prints its input one word per line. Here a word means a string that has no white space character(`'t',' ','\n' `).
+ex10.c : a program that prints its input one word per line. Here a word means a string that has no white space character(`'\t',' ','\n' `).
 
 ex13.c : a program that prints a histogram (in a horizontal way) of the lengths of words in its input. 
 
