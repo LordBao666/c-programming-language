@@ -1,3 +1,11 @@
 .vscode
 
 *.exe
+
+Makefile~
+
+*.c~
+
+*.o
+
+*.h~
