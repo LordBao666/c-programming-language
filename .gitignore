@@ -3,8 +3,10 @@
 *.exe
 
 Makefile~
+Makefile.bak
 
 *.c~
+*.cpp~
 
 *.o
 
