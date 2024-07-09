@@ -1,3 +1,4 @@
+CC = gcc
 CFLAGS=-ggdb3 -Wall -Werror -pedantic -std=gnu99
 GIVEN_OBJS=deck.o  eval.o  future.o  input.o  main.o eval-c4.o deck-c4.o
 
