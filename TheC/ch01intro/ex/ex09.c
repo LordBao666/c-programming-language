@@ -16,7 +16,7 @@ int main(){
             putchar(ch);
         }else{
             if(preCh!=' '){
-               putchar(ch);
+                putchar(ch);
             }
         }
         preCh=ch;
