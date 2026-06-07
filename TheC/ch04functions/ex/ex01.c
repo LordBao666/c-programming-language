@@ -3,6 +3,7 @@
 
 /**
  *
+ * Exercise 4-1. Write the function strindex(s,t) which returns the position of the rightmost occurrence * of t in s, or -1 if there is none.
  *
  * 返回seach在source右侧首次出现位置.如果不是子串,返回-1
  * 假定search 和 source的长度至少为1.
