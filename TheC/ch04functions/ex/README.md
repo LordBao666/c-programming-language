@@ -5,3 +5,6 @@ Exercise 4-2 Extend atof to handle scientific notation of the form 123.45e-6 whe
 
 Exercise 4-3. Given the basic framework, it's straightforward to extend the calculator. Add
 the modulus (%) operator and provisions for negative numbers.
+
+Exercise 4-7. Write a routine ungets(s) that will push back an entire string onto the input.
+Should ungets know about buf and bufp, or should it just use ungetch? 

@@ -1,6 +1,7 @@
 #include <stdio.h>
+#include <string.h>
 
-#define BUF_CAPACITY 100  // 缓冲区大小
+#define BUF_CAPACITY 3    // 缓冲区大小
 int buffer[BUF_CAPACITY]; // 缓冲区,存储来自标准输入的内容
 int front = 0;            // 缓冲区队首
 int rear = 0;             // 缓冲区队尾
@@ -14,6 +15,8 @@ int isBufferFull(void);
 int getch(void);
 void ungetch(int c);
 void traverseBuffer(void);
+// 习题4.7 将字符串s都放回缓冲区
+void ungets(char s[]);
 
 int isBufferEmpty(void) {
     return bufferSize == 0;
@@ -58,20 +61,31 @@ void traverseBuffer(void) {
     printf("\n");
 }
 
-// 测试代码,请将BUF_CAPACITY 设置为3
-//  int main() {
-//      ungetch('h');
-//      ungetch('e');
-//      ungetch('l');
-//      traverseBuffer();//buffer:hel
-//      ungetch('l');//已满
-//      traverseBuffer();//buffer:hel
-//      getch();
-//      traverseBuffer();//buffer:el
-//      getch();
-//      getch();
+void ungets(char s[]) {
+    // 这道题甚至不需要strlen. 用'\0'判断字符串终结即可
+    int len = strlen(s);
+    for (int i = 0; i < len; i++) {
+        ungetch(s[i]);
+    }
+}
 
-//     int c = getch();//这个getch必须从控制台输入
-//     printf("%c\n",c);
+// 测试代码,请将BUF_CAPACITY 设置为3
+// int main() {
+//     ungetch('h');
+//     ungetch('e');
+//     ungetch('l');
+//     traverseBuffer(); // buffer:hel
+//     ungetch('l');     // 已满
+//     traverseBuffer(); // buffer:hel
+//     getch();
+//     traverseBuffer(); // buffer:el
+//     getch();
+//     getch();
+
+//     int c = getch(); // 这个getch必须从控制台输入
+//     printf("%c\n", c);
+
+//     ungets("hello");//打印2个已满
+//     traverseBuffer(); // buffer:hel
 //     return 0;
 // }
