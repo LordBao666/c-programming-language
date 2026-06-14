@@ -7,6 +7,10 @@
 
 #define MAXLINES 5000 // 如果文本达到5000行,那么代表文本过多,不进行排序
 char *lineptr[MAXLINES];
+int nflag = 0; // 比较数值
+int rflag = 0; // 是否逆序
+int fflag = 0; // 是否忽略大小写
+int dflag = 0; // directory 序,即只考虑空格,字母和数字
 
 // 清理lineptr的前n行
 static void freeLines(char *lineptr[], int nlines) {
@@ -17,20 +21,17 @@ static void freeLines(char *lineptr[], int nlines) {
 
 // s1和s2对应的字符串转为数值进行比较
 int numcmp(char *s1, char *s2);
-// s1和s2进行字符串比较,忽略大小写.
-// e.g A==a
-int strcmpIgnoreCase(char *s1, char *s2);
+// s1和s2进行比较,将忽略大小写和directory都考虑进来
+int charcmp(char *s1, char *s2);
 
 int main(int argc, char *argv[]) {
-    int nflag = 0; // 比较数值
-    int rflag = 0; // 是否逆序
-    int fflag = 0; // 是否忽略大小写
+
     for (int i = 1; i < argc; i++) {
         if (*argv[i]++ == '-') {
             int c = *argv[i];
             if (!c) {
                 // 第i个参数是 - 这种非法字符
-                printf("按照类似 sort [-nrf] 的格式输入\n");
+                printf("按照类似 sort [-nrfd] 的格式输入\n");
                 return -1;
             }
             while (c) {
@@ -47,27 +48,34 @@ int main(int argc, char *argv[]) {
                     fflag = 1;
                     break;
                 }
+                case 'd': {
+                    dflag = 1;
+                    break;
+                }
                 default: {
-                    printf("按照类似 sort [-nrf] 的格式输入\n");
+                    printf("按照类似 sort [-nrfd] 的格式输入\n");
                     return -1;
                 }
                 }
                 c = *++argv[i];
             }
         } else {
-            printf("按照类似 sort [-nrf] 的格式输入\n");
+            printf("按照类似 sort [-nrfd] 的格式输入\n");
             return -1;
         }
     }
 
+    if (nflag && dflag) {
+        printf("-n 和 -d选项不兼容\n");
+        return -1;
+    }
+
     int (*comp)(void *, void *);
-    // nflag 优先于 fflag
+    // nflag
     if (nflag == 1) {
         comp = (int (*)(void *, void *))numcmp;
-    } else if (fflag) {
-        comp = (int (*)(void *, void *))strcmpIgnoreCase;
     } else {
-        comp = (int (*)(void *, void *))strcmp;
+        comp = (int (*)(void *, void *))charcmp;
     }
 
     int lines;
@@ -101,13 +109,35 @@ int numcmp(char *s1, char *s2) {
     }
 }
 
-// s1和s2进行字符串比较,忽略大小写.
-// e.g A==a
-int strcmpIgnoreCase(char *s1, char *s2) {
-    // s1字符串未空,且当前字符相同(忽略大小写)
-    while (*s1 && tolower(*s1) == tolower(*s2)) {
+// s1和s2进行比较,将忽略大小写和directory都考虑进来
+int charcmp(char *s1, char *s2) {
+    int c1, c2;
+    while (1) {
+        c1 = *s1;
+        c2 = *s2;
+        if (dflag) {
+            // c1不是'\0'并且不是字母数字(isalnum)和空格
+            while (c1 && !isalnum(c1) && c1 != ' ') {
+                s1++;
+                c1 = *s1;
+            }
+            while (c2 && !isalnum(c2) && c2 != ' ') {
+                s2++;
+                c2 = *s2;
+            }
+        }
+        if (fflag) {
+            c1 = tolower(c1);
+            c2 = tolower(c2);
+        }
+
+        if (c1 != c2) {
+            return c1 - c2;
+        } else if (!c1) { // c1=='\0'
+            return 0;
+        }
+        // 相等,且均不为'\0'
         s1++;
         s2++;
     }
-    return tolower(*s1) - tolower(*s2);
 }
