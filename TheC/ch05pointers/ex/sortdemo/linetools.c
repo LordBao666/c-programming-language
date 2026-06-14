@@ -85,6 +85,11 @@ void writelines(char *lineptr[], int nlines) {
     }
 }
 
+void writelinesReverse(char *lineptr[], int nlines, int len) {
+    for (int i = len - 1; i >= len - nlines; i--) {
+        printf("%s\n", lineptr[i]);
+    }
+}
 // int main() {
 //     /*测试getline */
 //     // char line[MAX_WORDS_PER_LINE];
@@ -101,5 +106,12 @@ void writelines(char *lineptr[], int nlines) {
 //     //     freeLines(lines, lineCnt);
 //     // }
 
+//     /*测试writelinesReverse*/
+//     // char *lines[MAX_LINES];
+//     // int lineCnt = readlines(lines, MAX_LINES);
+//     // if (lineCnt >= 0) {
+//     //     writelinesReverse(lines, lineCnt,lineCnt);
+//     //     freeLines(lines, lineCnt);
+//     // }
 //     return 0;
 // }

@@ -6,7 +6,7 @@
  * 由于实际的一行可能很长, 当读取的字符数达到max-1时,
  * 就不再读取。
  * 读取的字符末尾会添加文本终止符'\0'
- * 
+ *
  * 如果换行符存在的话，数将保留换行符.
  * 特殊情况1：标准输入没有内容时,返回EOF
  *
@@ -18,7 +18,7 @@
 int getline(char *s, int max);
 
 /**
- * 
+ *
  * 读取最多maxlines-1行 放到指针数组中去,返回实际读到的行数
  * 特殊情况：
  * 1 如果输入文本太多(达到maxlines),,则返回-1
@@ -27,7 +27,12 @@ int getline(char *s, int max);
  */
 int readlines(char *lineptr[], int maxlines);
 
-//打印指针数组的前n个字符串
+// 打印指针数组的前n个字符串
 void writelines(char *lineptr[], int nlines);
 
+/**
+ * 逆序打印指针数组的后n个字符串
+ * len表示数组长度
+ * */
+void writelinesReverse(char *lineptr[], int nlines, int len);
 #endif

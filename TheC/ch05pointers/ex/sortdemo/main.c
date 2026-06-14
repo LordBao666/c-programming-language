@@ -18,21 +18,35 @@ static void freeLines(char *lineptr[], int nlines) {
 int numcmp(char *s1, char *s2);
 
 int main(int argc, char *argv[]) {
-    int compareNum = 0; // 比较数值
-    if (argc > 2) {
-        printf("按照 sort [-n] 的格式输入\n");
-        return -1;
-    }
-    if (argc == 2) {
-        if (strcmp("-n", argv[1]) == 0) {
-            compareNum = 1;
+    int nflag = 0; // 比较数值
+    int rflg = 0;  // 是否逆序
+    for (int i = 1; i < argc; i++) {
+        if (*argv[i]++ == '-') {
+            int c = *argv[i];
+            if (!c) {
+                // 第i个参数是 - 这种非法字符
+                printf("按照类似 sort [-nr] 的格式输入\n");
+                return -1;
+            }
+            while (c) {
+                if (c == 'n') {
+                    nflag = 1;
+                } else if (c == 'r') {
+                    rflg = 1;
+                } else {
+                    printf("按照类似 sort [-nr] 的格式输入\n");
+                    return -1;
+                }
+                c = *++argv[i];
+            }
         } else {
-            printf("按照 sort [-n] 的格式输入\n");
+            printf("按照类似 sort [-nr] 的格式输入\n");
             return -1;
         }
     }
+
     int (*comp)(void *, void *);
-    if (compareNum == 1) {
+    if (nflag == 1) {
         comp = (int (*)(void *, void *))numcmp;
     } else {
         comp = (int (*)(void *, void *))strcmp;
@@ -42,7 +56,12 @@ int main(int argc, char *argv[]) {
     // 注意readlines是通过malloc分配内存。main函数在成功读取行之后，一定要回收。
     if ((lines = readlines(lineptr, MAXLINES)) >= 0) {
         myQsort((void **)lineptr, 0, lines - 1, comp);
-        writelines(lineptr, lines);
+        if (rflg) {
+            writelinesReverse(lineptr, lines, lines);
+        } else {
+            writelines(lineptr, lines);
+        }
+
         freeLines(lineptr, lines);
         return 0;
     } else {
