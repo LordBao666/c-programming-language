@@ -10,3 +10,7 @@ Exercise 5-13. Write the program tail, which prints the last n lines of its inpu
 
 Exercise 5-14. Modify the sort program to handle a -r flag, which indicates sorting in reverse
 (decreasing) order. Be sure that -r works with -n. 
+
+
+Exercise 5-15. Add the option -f to fold upper and lower case together, so that case
+distinctions are not made during sorting; for example, a and A compare equal
