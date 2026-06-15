@@ -15,4 +15,6 @@ struct nlist *lookup(char *s);
  */
 struct nlist *install(char *name, char *defn);
 
+/*删除hash表中的name*/
+void undef(char * name);
 #endif

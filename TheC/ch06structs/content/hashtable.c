@@ -72,6 +72,39 @@ struct nlist *install(char *name, char *defn) {
     }
 }
 
+/*删除hash表中的name*/
+void undef(char *name) {
+    unsigned index = hash(name);
+    struct nlist *p = hashtable[index];
+    if (p == NULL) {
+        return;
+    }
+
+    // 首节点匹配
+    if (strcmp(p->name, name) == 0) {
+        hashtable[index] = p->next;
+        // 不要修改下列顺序
+        free(p->name);
+        free(p->defn);
+        free(p);
+        return;
+    }
+
+    struct nlist *q = p->next;
+    while (q) {
+        if (strcmp(q->name, name) == 0) {
+            p->next = q->next;
+            // 不要修改下列顺序
+            free(q->name);
+            free(q->defn);
+            free(q);
+            return;
+        }
+        p = q;
+        q = q->next;
+    }
+}
+
 // int main() {
 //     char *key[] = {"hi", "hi", "ye", "ye"};
 //     char *val[] = {"1", "2", "3", "4"};
@@ -80,6 +113,10 @@ struct nlist *install(char *name, char *defn) {
 //     }
 //     printf("%s->%s\n", key[0], lookup(key[0])->defn);
 //     printf("%s->%s\n", key[2], lookup(key[2])->defn);
+//     undef(key[0]);
+//     if (lookup(key[0])) {
+//         printf("见了鬼了...\n");
+//     }
 
 //     return 0;
 // }
