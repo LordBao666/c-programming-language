@@ -18,4 +18,5 @@ struct binSearchTree *addTree(struct binSearchTree *root, char *word);
 // 打印树形结构,按照中序打印,即由小开始往大打印
 void printTree(struct binSearchTree *root);
 
+void freeTree(struct binSearchTree *root);
 #endif

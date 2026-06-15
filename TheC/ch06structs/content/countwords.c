@@ -16,5 +16,6 @@ int main() {
     }
     //注意这里并没有考虑空间不足的处理
     printTree(root);
+    freeTree(root);
     return 0;
 }

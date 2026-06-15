@@ -58,6 +58,17 @@ static char *myStrdup(char *s) {
     return dest;
 }
 
+void freeTree(struct binSearchTree *root) {
+    if (root) {
+        free(root->word);
+        struct binSearchTree *left = root->left;
+        struct binSearchTree *right = root->right;
+        free(root);
+        freeTree(left);
+        freeTree(right);
+    }
+}
+
 // int main() {
 //     char *s[] = {"hello", "hello", "word", "hello", "word", "point", "point"};
 //     int len = sizeof(s) / sizeof(char *);
